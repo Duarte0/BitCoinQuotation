@@ -14,7 +14,7 @@ export default function QuotationItems() {
                 </View>
             </View>
             <View style={styles.contextRight}>
-                <Text style={styles.price}>$ 53331.052</Text>
+                <Text style={styles.price}>$ 0000.000</Text>
             </View>
         </View>
     )
