@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, SafeAreaView, Platform, StatusBar} from 'react-
 import CurrentPrice from './src/components/CurrentPrice';
 import HistoryGraphic from './src/components/HistoryGraphic';
 import QuotationList from './src/components/QuotationList';
-import QuotationItems from './src/components/QuotationList/QuotationItems';
 
 function addZero(number){
   if(number <= 9){
@@ -80,7 +79,6 @@ export default function App() {
       <CurrentPrice/>
       <HistoryGraphic/>
       <QuotationList filterDay={updateDay} listTransactions={coinList}/>
-      <QuotationItems/>
     </SafeAreaView>
   );
 }
