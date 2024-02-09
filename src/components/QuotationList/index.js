@@ -8,20 +8,13 @@ export default function QuotationList(props){
     const daysQuery = props.filterDay
 
     return(
-        <Fragment>
+        <>
         <View style={styles.filters} >
             <TouchableOpacity 
             style={styles.buttonQuerry}
             onPress={() => daysQuery(7) }
             >
                 <Text style={styles.textButtonQuerry}>7D</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            style={styles.buttonQuerry}
-            onPress={() => daysQuery(15) }
-            >
-                <Text style={styles.textButtonQuerry}>15D</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
@@ -44,8 +37,16 @@ export default function QuotationList(props){
             >
                 <Text style={styles.textButtonQuerry}>6M</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity 
+            style={styles.buttonQuerry}
+            onPress={() => daysQuery(360) }
+            >
+                <Text style={styles.textButtonQuerry}>1Y</Text>
+            </TouchableOpacity>
         </View>
 
+        
         <FlatList
             data={props.listTransactions}
             renderItem={({item}) =>{
@@ -53,6 +54,6 @@ export default function QuotationList(props){
             }}
         />
 
-        </Fragment>
+        </>
     )
 }

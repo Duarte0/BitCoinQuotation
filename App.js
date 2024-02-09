@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Platform, StatusBar} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Platform, StatusBar } from 'react-native';
 import CurrentPrice from './src/components/CurrentPrice';
 import HistoryGraphic from './src/components/HistoryGraphic';
 import QuotationList from './src/components/QuotationList';
 
-function addZero(number){
-  if(number <= 9){
+function addZero(number) {
+  if (number <= 9) {
     return "0" + number
   }
   return number
@@ -14,9 +14,9 @@ function addZero(number){
 function url(qtdDays) {
   const date = new Date();
   const listLastDay = qtdDays
-  const start_date = `${date.getFullYear()}-${addZero(date.getMonth()+1)}-${addZero(date.getDate())}`;
+  const start_date = `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())}`;
   date.setDate(date.getDate() - listLastDay)
-  const end_date = `${date.getFullYear()}-${addZero(date.getMonth()+1)}-${addZero(date.getDate())}`;
+  const end_date = `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())}`;
   return `https://api.coindesk.com/v1/bpi/historical/close.json?start=${start_date}&$end=${end_date}`
 }
 
@@ -33,14 +33,15 @@ async function getListCoins(url) {
   let data = queryCoinList.reverse();
   return data;
 }
+
 async function getPriceCoinsGraphic(url) {
   let responseG = await fetch(url);
   let returnApiG = await responseG.json()
   let selectListQuotationG = returnApiG.bpi
-  const queryCoinList = Object.keys(selectListQuotationG).map((key) => {
-    selectListQuotationG[key]
+  const queryCoinListG = Object.keys(selectListQuotationG).map((key) => {
+    return selectListQuotationG[key]
   });
-  let dataG = queryCoinList;
+  let dataG = queryCoinListG;
   return dataG;
 }
 
@@ -50,23 +51,29 @@ export default function App() {
   const [coinsGraphicList, setCoinGraphicList] = useState([0]);
   const [days, setDays] = useState(30);
   const [updateData, setUpdateData] = useState(true);
+  const [price, setPrice] = useState();
 
-  function updateDay(number){
+  function updateDay(number) {
     setDays(number)
     setUpdateData(true)
   }
 
-  useEffect(() =>{
-    getListCoins(url(days)).then((data) =>{
+  function priceCotation(){
+    setPrice(coinsGraphicList.pop())
+  }
+
+  useEffect(() => {
+    getListCoins(url(days)).then((data) => {
       setCoinList(data)
     });
-    getPriceCoinsGraphic(url(days)).then((dataG) =>{
+    getPriceCoinsGraphic(url(days)).then((dataG) => {
       setCoinGraphicList(dataG)
     });
-    if(updateData) {
+    priceCotation()
+    if (updateData) {
       setUpdateData(false)
     }
-  },[updateData]);
+  }, [updateData]);
 
 
   return (
@@ -75,10 +82,10 @@ export default function App() {
         backgroundColor="#b89e14"
         barStyle="dark-content"
       />
-      
-      <CurrentPrice/>
-      <HistoryGraphic/>
-      <QuotationList filterDay={updateDay} listTransactions={coinList}/>
+
+      <CurrentPrice lastCotation={price}/>
+      <HistoryGraphic infoDataGraphic={coinsGraphicList} />
+      <QuotationList filterDay={updateDay} listTransactions={coinList} />
     </SafeAreaView>
   );
 }
