@@ -1,6 +1,7 @@
 import { Fragment } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, ScrollView, FlatList } from "react-native";
 import styles from "./styles";
+import QuotationItems from "./QuotationItems";
 
 export default function QuotationList(props){
 
@@ -44,6 +45,13 @@ export default function QuotationList(props){
                 <Text style={styles.textButtonQuerry}>6M</Text>
             </TouchableOpacity>
         </View>
+
+        <FlatList
+            data={props.listTransactions}
+            renderItem={({item}) =>{
+                return <QuotationItems valor={item.valor} data={item.data}/>
+            }}
+        />
 
         </Fragment>
     )
